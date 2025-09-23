@@ -74,5 +74,5 @@ src/main/java/com/wasd/smartWMS/domain/admins
 ├─ Admins.java
 ├─ AdminsRepository.java
 src/main/java/com/wasd/smartWMS/service/stocks
-├─ StockssService.java
+├─ StocksService.java
 ```
