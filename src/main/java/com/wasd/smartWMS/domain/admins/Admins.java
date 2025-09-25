@@ -27,7 +27,7 @@ public class Admins {
     private Long mainAdminId;  // SUB 관리자가 속해있는 MAIN 관리자 ID(PK)
 
     @Builder
-    public Admins(String name, String role, Long mainAdminId) {
+    public Admins(String name, Role role, Long mainAdminId) {
         this.name = name;
         this.role = role;
         this.mainAdminId = mainAdminId;
