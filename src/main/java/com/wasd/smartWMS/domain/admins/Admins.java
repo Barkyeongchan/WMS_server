@@ -21,7 +21,8 @@ public class Admins {
     private String name;
 
     @Column(nullable = false)
-    private String role;  // 관리자 등급 - MAIN, SUB
+    @Enumerated(EnumType.STRING)    // Enum를 문자열로 저장, 더 깔끔하고 안전함
+    private Role role;  // 관리자 등급 - MAIN, SUB
 
     private Long mainAdminId;  // SUB 관리자가 속해있는 MAIN 관리자 ID(PK)
 
