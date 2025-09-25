@@ -16,8 +16,8 @@ import java.time.LocalDateTime;
 public class BaseTimeEntity {
 
     @CreatedDate    // 엔티티가 DB에 저장될 때 자동으로 일시 기록
-    private LocalDateTime
+    private LocalDateTime createdDate;
 
     @LastModifiedDate    // 엔티티가 수정될 때 자동으로 일시 시록
-    private LocalDateTime
+    private LocalDateTime modifiedDate;
 }
