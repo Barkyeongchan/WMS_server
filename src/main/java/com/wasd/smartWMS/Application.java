@@ -1,3 +1,4 @@
+// application 시작
 package com.wasd.smartWMS;
 
 import org.springframework.boot.SpringApplication;

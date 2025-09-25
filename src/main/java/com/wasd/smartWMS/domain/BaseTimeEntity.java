@@ -1,3 +1,4 @@
+// 생성/수정 일시를 자동으로 기록
 package com.wasd.smartWMS.domain;
 
 import jakarta.persistence.EntityListeners;
@@ -14,9 +15,9 @@ import java.time.LocalDateTime;
 @EntityListeners(AuditingEntityListener.class)
 public class BaseTimeEntity {
 
-    @CreatedDate
+    @CreatedDate    // 엔티티가 DB에 저장될 때 자동으로 일시 기록
     private LocalDateTime
 
-    @LastModifiedDate
+    @LastModifiedDate    // 엔티티가 수정될 때 자동으로 일시 시록
     private LocalDateTime
 }
