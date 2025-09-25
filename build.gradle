@@ -40,9 +40,6 @@ dependencies {
     // 머스타치 스타터 의존성 등록
     implementation('org.springframework.boot:spring-boot-starter-mustache')
 
-    // Spring Security OAuth2 클라이언트 스타터
-    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
-
     // Spring Security 기본 스타터 (보통 함께 사용)
     implementation 'org.springframework.boot:spring-boot-starter-security'
 
