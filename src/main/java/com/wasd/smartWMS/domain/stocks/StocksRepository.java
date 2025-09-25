@@ -1,4 +1,4 @@
-// 실제 DB에서 CRUD(create, read, update, delete)를 수행함
+// DB에서 Stocks 데이터의 CRUD(create, read, update, delete)를 수행함
 package com.wasd.smartWMS.domain.stocks;
 
 import org.springframework.data.jpa.repository.JpaRepository;

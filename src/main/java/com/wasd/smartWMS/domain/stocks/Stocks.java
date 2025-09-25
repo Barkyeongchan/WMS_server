@@ -1,4 +1,4 @@
-// 테이블 구조를 정의 함
+// Stocks 테이블 구조 정의
 package com.wasd.smartWMS.domain.stocks;
 
 import com.wasd.smartWMS.domain.BaseTimeEntity;
