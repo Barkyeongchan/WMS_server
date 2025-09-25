@@ -73,6 +73,7 @@ src/main/java/com/wasd/smartWMS/domain/stocks
 src/main/java/com/wasd/smartWMS/domain/admins
 ├─ Admins.java
 ├─ AdminsRepository.java
+├─ Role.java
 src/main/java/com/wasd/smartWMS/service/stocks
 ├─ StocksService.java
 ```
