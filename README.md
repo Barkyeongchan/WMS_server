@@ -64,8 +64,6 @@ public class IndexController {
 
 `repository` : JpaRepository 상속, DB 쿼리 담당
 
-`service` : 비지니스 로직 처리
-
 ```
 src/main/java/com/wasd/smartWMS/domain/stocks
 ├─ Stocks.java
@@ -74,6 +72,4 @@ src/main/java/com/wasd/smartWMS/domain/admins
 ├─ Admins.java
 ├─ AdminsRepository.java
 ├─ Role.java
-src/main/java/com/wasd/smartWMS/service/stocks
-├─ StocksService.java
 ```
