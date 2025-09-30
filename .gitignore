@@ -45,6 +45,3 @@ bin/
 ### OS
 .DS_Store
 Thumbs.db
-
-### Ouath
-application-oauth.properties
