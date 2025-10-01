@@ -185,4 +185,5 @@ spring.http.encoding.force=true
 
 - 로컬 ip, 각 사용자 ip 추가
 
-## 3. 
+## 3. application.properties 설정 추가
+
