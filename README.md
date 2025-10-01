@@ -1,3 +1,5 @@
+# 1. 웹서버 호스팅
+
 ## 1. 프로젝트 생성
 
 ```
@@ -174,3 +176,13 @@ spring.http.encoding.enabled=true
 spring.http.encoding.charset=UTF-8
 spring.http.encoding.force=true
 ```
+
+# 2. DB(RDS)연결
+
+## 1. RDS 생성 (WASD_Project)
+
+## 2. 보안그룹 생성
+
+- 로컬 ip, 각 사용자 ip 추가
+
+## 3. 
