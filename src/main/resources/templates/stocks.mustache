@@ -1,0 +1,66 @@
+{{>layout/header}}
+
+<!--메인-->
+<main>
+    <script>
+        console.log("stocks.js 로드 테스트");
+    </script>
+    <div id="sidebar" class="sidebar">
+        <p class="WASD">WASD</p>
+        <a href="../index.html">대시보드</a>
+        <a href="stocks.html">물품 현황</a>
+        <a href="#">로봇 관리</a>
+        <a href="#">작업 로그</a>
+        <a href="#">관리자</a>
+    </div>
+
+    <div id="main_screen" class="main_screen">
+
+        <div class="topbar">
+            <img id="togglebtn" src="images/slide01.png" alt="슬라이드바">
+
+            <div class="user_menu_wrapper">
+                <img id="usericon" src="images/user01.png" alt="유저아이콘">
+                <div id="user_menu" class="user_menu">
+                    <p><strong>아이디:</strong> 예시</p>
+                    <p><strong>이름:</strong> 예시</p>
+                    <button id="logout_btn">로그아웃</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="product">
+            <div class="product_add">
+                <input type="text" placeholder="상품명">
+
+                <div class="dropdown">
+                    <button class="dropdown_cate">카테고리</button>
+                    <div class="dropdown_menu">
+                        <p>전자제품</p>
+                        <p>생활용품</p>
+                        <p>식품</p>
+                    </div>
+                </div>
+
+                <input type="text" placeholder="수량">
+
+                <div class="dropdown">
+                    <button class="dropdown_pin">위치</button>
+                    <div class="dropdown_menu">
+                        <p>A1</p>
+                        <p>B2</p>
+                        <p>C3</p>
+                    </div>
+                </div>
+
+                <button>등록</button>
+            </div>
+
+            <div class="product_list">
+                <p>상품 리스트</p>
+            </div>
+        </div>
+    </div>
+</main>
+
+{{>layout/footer}}

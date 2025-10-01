@@ -1,0 +1,44 @@
+.product{
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+    flex: 1;
+}
+
+.product_add{
+    background-color: white;
+    margin-bottom: 20px;
+    flex: 1;
+}
+
+.product_list{
+    background-color: white;
+    flex: 10;
+}
+
+.dropdown {
+    position: relative; /* 메뉴 위치 기준 */
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.dropdown_menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    min-width: 100px;
+    z-index: 10;
+}
+
+.dropdown_menu p {
+    margin: 0;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.dropdown_menu p:hover {
+    background-color: #f0f0f0;
+}
