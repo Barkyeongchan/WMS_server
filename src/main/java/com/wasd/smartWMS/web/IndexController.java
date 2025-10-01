@@ -11,4 +11,9 @@ public class IndexController {
     public String index() {
         return "index"; // "index:라는 뷰를 반환 -> templates/index.mustache 랜더링
     }
+
+    @GetMapping("/stocks")
+    public String stocks() {
+        return "stocks";
+    }
 }
