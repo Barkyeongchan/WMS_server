@@ -187,3 +187,15 @@ spring.http.encoding.force=true
 
 ## 3. application.properties 설정 추가
 
+```
+spring.datasource.url=jdbc:mariadb://<RDS-ENDPOINT>:3306/<DB명>
+spring.datasource.driver-class-name=org.mariadb.jdbc.Driver
+spring.datasource.username=<USERNAME>
+spring.datasource.password=<PASSWORD>
+```
+
+## 4. 개발 편의를 위해 session 비활성화
+
+```
+spring.session.jdbc.enabled=false
+```
