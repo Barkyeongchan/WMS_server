@@ -1,22 +1,30 @@
+// 보안 정책 정의
 package com.wasd.smartWMS.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
-@EnableWebSecurity
 public class SecurityConfig {
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
+    public BCryptPasswordEncoder passwordEncoder() {    // 비밀번호 암호화
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http.csrf().disable() // 테스트용, 필요시 CSRF 설정
                 .authorizeHttpRequests(auth -> auth
-                        .anyRequest().permitAll()  // 인증 무시, 모든 요청 허용
+
+                        // URL 접근 권한 관리
+                        .requestMatchers("/", "/signup", "/css/**", "/js/**").permitAll()
+                        .anyRequest().authenticated()
                 )
-                .csrf(csrf -> csrf.disable()); // 필요에 따라 CSRF 비활성화
+                .formLogin().disable(); // 기본 로그인 페이지 사용 안함
 
         return http.build();
     }
