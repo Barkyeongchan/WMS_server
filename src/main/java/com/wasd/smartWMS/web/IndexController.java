@@ -3,11 +3,12 @@ package com.wasd.smartWMS.web;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class IndexController {
 
-    @GetMapping("/")    // "/" 경로(루트 URL)를 처리
+    @GetMapping("/index")    // "/index" 경로(루트 URL)를 처리
     public String index() {
         return "index"; // "index:라는 뷰를 반환 -> templates/index.mustache 랜더링
     }
