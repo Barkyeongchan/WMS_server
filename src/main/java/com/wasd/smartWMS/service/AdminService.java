@@ -5,11 +5,13 @@ import com.wasd.smartWMS.domain.admins.Admins;
 import com.wasd.smartWMS.domain.admins.AdminsRepository;
 import com.wasd.smartWMS.domain.admins.Role;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 import static com.wasd.smartWMS.domain.admins.Role.MAIN;
 
+@Service
 public class AdminService {
     private final AdminsRepository adminsRepository;
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();  // 비밀번호 암호화
