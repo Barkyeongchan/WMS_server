@@ -1,15 +1,19 @@
-// DB에서 Admins 데이터의 CRUD를 수행함
 package com.wasd.smartWMS.domain.admins;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-
-import java.util.List;
+import java.util.List;  // 값이 여러 개가 있을 수 있을 때 다중 조회
+import java.util.Optional;  // 값이 있냐 없냐의 단일 조회
 
 public interface AdminsRepository extends JpaRepository<Admins, Long> {
 
-    // 메인 관리자의 서브 관리자 조회
-    List<Admins> findByMainAdminId(Long mainAdminId);
+    // username으로 단일 조회 (회원가입/로그인에 주로 사용)
+    Optional<Admins> findByUsername(String username);
 
-    // 메인 관리자 전체 조회 (role="MAIN")
+    // role별 전체 조회 (MAIN_ADMIN / SUB_ADMIN)
     List<Admins> findByRole(String role);
+
+    // MAIN_ADMIN 1명만 조회
+    default Optional<Admins> findMainAdmin() {
+        return findByRole("MAIN_ADMIN").stream().findFirst();
+    }
 }
