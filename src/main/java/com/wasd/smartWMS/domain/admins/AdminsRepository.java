@@ -10,10 +10,10 @@ public interface AdminsRepository extends JpaRepository<Admins, Long> {
     Optional<Admins> findByUsername(String username);
 
     // role별 전체 조회 (MAIN_ADMIN / SUB_ADMIN)
-    List<Admins> findByRole(String role);
+    List<Admins> findByRole(Role role);
 
     // MAIN_ADMIN 1명만 조회
     default Optional<Admins> findMainAdmin() {
-        return findByRole("MAIN_ADMIN").stream().findFirst();
+        return findByRole(Role.MAIN).stream().findFirst();
     }
 }
