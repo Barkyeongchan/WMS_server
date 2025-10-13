@@ -27,7 +27,7 @@ body {
 
 /* 입력창 */
 .signup-container input {
-  width: 100%;
+  width: 80%;
   padding: 12px;
   margin-bottom: 15px;
   border: 1px solid #ccc;
@@ -44,7 +44,7 @@ body {
 
 /* 버튼 공통 */
 .signup-container button {
-  width: 100%;
+  width: 90%;
   padding: 12px;
   border: none;
   border-radius: 6px;
