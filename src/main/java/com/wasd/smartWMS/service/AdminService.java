@@ -23,7 +23,7 @@ public class AdminService {
     public Admins signup(String userid, String username, String rawPassword) {
 
         // userid 중복 체크
-        if (adminsRepository.findByUsername(userid).isPresent()) {
+        if (adminsRepository.findByUserid(userid).isPresent()) {
             throw new IllegalArgumentException("이미 존재하는 아이디입니다.");
         }
 
@@ -45,7 +45,7 @@ public class AdminService {
 
     // 로그인
     public Optional<Admins> login(String userid, String rawPassword) {
-        Optional<Admins> adminOpt = adminsRepository.findByUsername(userid);
+        Optional<Admins> adminOpt = adminsRepository.findByUserid(userid);
 
         if (adminOpt.isPresent() && passwordEncoder.matches(rawPassword, adminOpt.get().getPassword())) {
             return adminOpt;
