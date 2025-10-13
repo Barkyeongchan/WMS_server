@@ -57,4 +57,10 @@ public class AdminService {
     public boolean mainAdminExists() {
         return !adminsRepository.findByRole(MAIN).isEmpty();
     }
+
+    // ID로 Admin 조회
+    public Admins findById(Long id) {
+        return adminsRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 관리자 없음. id=" + id));
+    }
 }
