@@ -2,6 +2,7 @@ package com.wasd.smartWMS.web;
 
 import com.wasd.smartWMS.domain.admins.Admins;
 import com.wasd.smartWMS.service.AdminService;
+import com.wasd.smartWMS.web.dto.SessionAdmin;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,9 +23,9 @@ public class LoginController {
     @GetMapping({"/", "/login"})
     public String loginPage(Model model) {
         model.addAttribute("showSignup", !adminService.mainAdminExists());
-        model.addAttribute("signupSuccess", false); // 기본값
-        model.addAttribute("error", "");           // 기본값
-        return "login"; // templates/login.mustache
+        model.addAttribute("signupSuccess", false);
+        model.addAttribute("error", "");
+        return "login";
     }
 
     // 로그인 처리
@@ -37,7 +38,8 @@ public class LoginController {
         Optional<Admins> adminOpt = adminService.login(userid, password);
 
         if (adminOpt.isPresent()) {
-            session.setAttribute("loginAdmin", adminOpt.get());
+            // DTO로 세션 저장
+            session.setAttribute("loginAdmin", new SessionAdmin(adminOpt.get()));
             return "redirect:/index";
         }
 
@@ -46,6 +48,7 @@ public class LoginController {
         model.addAttribute("signupSuccess", false);
         return "login";
     }
+
 
     // 회원가입 페이지
     @GetMapping("/signup")
@@ -56,7 +59,7 @@ public class LoginController {
         model.addAttribute("showSignup", true);
         model.addAttribute("signupSuccess", false);
         model.addAttribute("error", "");
-        return "signup"; // templates/signup.mustache
+        return "signup";
     }
 
     // 회원가입 처리
@@ -72,6 +75,7 @@ public class LoginController {
             model.addAttribute("showSignup", false);
             model.addAttribute("error", "");
             return "login";
+
         } catch (IllegalArgumentException e) {
             model.addAttribute("error", e.getMessage());
             model.addAttribute("showSignup", true);
