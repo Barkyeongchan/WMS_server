@@ -14,7 +14,16 @@
 
 <!--메인-->
 <main>
-    <p>로그인</p>
+    <div class="signup-container">
+        <h2>회원가입</h2>
+        <form id="signupForm">
+            <input id="userId" type="text" placeholder="아이디" required>
+            <input id="userPw" type="password" placeholder="비밀번호" required>
+            <input id="userName" type="text" placeholder="이름" required>
+            <button type="submit" class="signup-btn">회원가입</button>
+            <button type="button" id="backToLogin" class="back-btn">로그인으로 돌아가기</button>
+        </form>
+    </div>
 </main>
 
 <!--푸터-->
