@@ -7,31 +7,26 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/login.css">
 </head>
-<!--헤더-->
-<header class="header">
-</header>
 
 <body>
-<!--메인-->
+<header class="header"></header>
+
 <main>
     <div class="login-container">
         <h2>로그인</h2>
-        <form>
+        <form action="/login" method="POST">
             <input type="text" name="userid" placeholder="ID" required>
             <input type="password" name="password" placeholder="Password" required>
             <button type="submit" id="loginBtn" class="login_btn">로그인</button>
-            <button type="button" id="signupBtn" class="signup_btn">회원가입</button>
+            <button type="button" id="signupBtn" class="signup_btn" data-show-signup="{{showSignup}}">회원가입</button>
         </form>
     </div>
-</body>
 </main>
 
-<!--푸터-->
-<footer>
-
-</footer>
+<footer></footer>
 
 <script src="js/script.js"></script>
 <script src="js/login.js"></script>
+
 </body>
 </html>
