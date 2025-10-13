@@ -20,9 +20,12 @@ public class Admins {
     private Long id;  // PK 자동 생성
 
     @Column(nullable = false, unique = true) // 빈값 허용 안함, 중복 허용 안함
+    private String userid;
+
+    @Column(nullable = false)    // DB와 일치
     private String username;
 
-    @Column(nullable = false) // DB와 일치
+    @Column(nullable = false)    // DB와 일치
     private String password;
 
     @Column(nullable = false)
@@ -34,8 +37,9 @@ public class Admins {
     private LocalDateTime createdAt;
 
     @Builder
-    public Admins(String username, String password, Role role) {
+    public Admins(String username, String userid, String password, Role role) {
         this.username = username;
+        this.userid = userid;
         this.password = password;
         this.role = role;
     }
