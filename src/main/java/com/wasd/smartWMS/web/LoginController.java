@@ -28,12 +28,12 @@ public class LoginController {
 
     // 로그인 처리
     @PostMapping("/login")
-    public String login(@RequestParam String username,
+    public String login(@RequestParam String userid,
                         @RequestParam String password,
                         HttpSession session,
                         Model model) {
 
-        Optional<Admins> adminOpt = adminService.login(username, password);
+        Optional<Admins> adminOpt = adminService.login(userid, password);
 
         if (adminOpt.isPresent()) {
             // 로그인 성공 시 세션 저장
@@ -60,11 +60,12 @@ public class LoginController {
     // 회원가입 처리
     @PostMapping("/signup")
     public String signup(@RequestParam String username,
+                         @RequestParam String userid,
                          @RequestParam String password,
                          Model model) {
 
         try {
-            adminService.signup(username, password);
+            adminService.signup(userid, username, password);
             return "redirect:/login"; // 회원가입 후 로그인 페이지
         } catch (IllegalArgumentException e) {
             model.addAttribute("error", e.getMessage());
