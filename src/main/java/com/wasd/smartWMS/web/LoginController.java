@@ -21,8 +21,9 @@ public class LoginController {
     // 로그인 페이지
     @GetMapping({"/", "/login"})
     public String loginPage(Model model) {
-        // 최초 가입 시 MAIN_ADMIN 없으면 회원가입 버튼/폼 보여주기
         model.addAttribute("showSignup", !adminService.mainAdminExists());
+        model.addAttribute("signupSuccess", false); // 기본값
+        model.addAttribute("error", "");           // 기본값
         return "login"; // templates/login.mustache
     }
 
@@ -36,24 +37,25 @@ public class LoginController {
         Optional<Admins> adminOpt = adminService.login(userid, password);
 
         if (adminOpt.isPresent()) {
-            // 로그인 성공 시 세션 저장
             session.setAttribute("loginAdmin", adminOpt.get());
-            return "redirect:/index"; // 로그인 성공 후 대시보드 이동
+            return "redirect:/index";
         }
 
-        // 로그인 실패 시 메시지
         model.addAttribute("error", "아이디 또는 비밀번호가 틀렸습니다.");
         model.addAttribute("showSignup", !adminService.mainAdminExists());
+        model.addAttribute("signupSuccess", false);
         return "login";
     }
 
     // 회원가입 페이지
     @GetMapping("/signup")
-    public String signupPage() {
-        // MAIN_ADMIN 존재 시 접근 불가
+    public String signupPage(Model model) {
         if (adminService.mainAdminExists()) {
             return "redirect:/login";
         }
+        model.addAttribute("showSignup", true);
+        model.addAttribute("signupSuccess", false);
+        model.addAttribute("error", "");
         return "signup"; // templates/signup.mustache
     }
 
@@ -66,10 +68,14 @@ public class LoginController {
 
         try {
             adminService.signup(userid, username, password);
-            return "redirect:/login"; // 회원가입 후 로그인 페이지
+            model.addAttribute("signupSuccess", true);
+            model.addAttribute("showSignup", false);
+            model.addAttribute("error", "");
+            return "login";
         } catch (IllegalArgumentException e) {
             model.addAttribute("error", e.getMessage());
             model.addAttribute("showSignup", true);
+            model.addAttribute("signupSuccess", false);
             return "signup";
         }
     }
@@ -77,7 +83,7 @@ public class LoginController {
     // 로그아웃 처리
     @GetMapping("/logout")
     public String logout(HttpSession session) {
-        session.invalidate(); // 세션 삭제
+        session.invalidate();
         return "redirect:/login";
     }
 }
