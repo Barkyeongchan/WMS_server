@@ -1,13 +1,12 @@
-// 웹에서 요청을 받아 로그인 관련 뷰를 반환
 package com.wasd.smartWMS.web;
 
-import com.wasd.smartWMS.service.AdminService;
 import com.wasd.smartWMS.domain.admins.Admins;
+import com.wasd.smartWMS.service.AdminService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.servlet.http.HttpSession;
 import java.util.Optional;
 
 @Controller
@@ -19,10 +18,10 @@ public class LoginController {
         this.adminService = adminService;
     }
 
-    // 로그인 화면
-    // 최초 가입 시 MAIN_ADMIN이 없으면 회원가입 버튼/폼을 보여줌
-    @GetMapping("/")
+    // 로그인 페이지
+    @GetMapping({"/", "/login"})
     public String loginPage(Model model) {
+        // 최초 가입 시 MAIN_ADMIN 없으면 회원가입 버튼/폼 보여주기
         model.addAttribute("showSignup", !adminService.mainAdminExists());
         return "login"; // templates/login.mustache
     }
@@ -34,29 +33,28 @@ public class LoginController {
                         HttpSession session,
                         Model model) {
 
-        // DB에서 username 확인 + 비밀번호 일치 여부 체크
         Optional<Admins> adminOpt = adminService.login(username, password);
 
-        // 로그인 성공 시 세션에 로그인 정보 저장
         if (adminOpt.isPresent()) {
+            // 로그인 성공 시 세션 저장
             session.setAttribute("loginAdmin", adminOpt.get());
             return "redirect:/index"; // 로그인 성공 후 대시보드 이동
         }
 
-        // 로그인 실패 시 메시지 표시
+        // 로그인 실패 시 메시지
         model.addAttribute("error", "아이디 또는 비밀번호가 틀렸습니다.");
         model.addAttribute("showSignup", !adminService.mainAdminExists());
         return "login";
     }
 
-    // 회원가입 화면
-    // MAIN_ADMIN 존재 시 접근 불가
+    // 회원가입 페이지
     @GetMapping("/signup")
     public String signupPage() {
+        // MAIN_ADMIN 존재 시 접근 불가
         if (adminService.mainAdminExists()) {
-            return "redirect:/"; // 이미 MAIN_ADMIN 존재 → 로그인 페이지 이동
+            return "redirect:/login";
         }
-        return "signup"; // templates/signup.html
+        return "signup"; // templates/signup.mustache
     }
 
     // 회원가입 처리
@@ -66,11 +64,9 @@ public class LoginController {
                          Model model) {
 
         try {
-            // 서비스 호출: username 중복 체크, 최초 가입자 MAIN_ADMIN 설정
             adminService.signup(username, password);
-            return "redirect:/"; // 가입 성공 → 로그인 페이지
+            return "redirect:/login"; // 회원가입 후 로그인 페이지
         } catch (IllegalArgumentException e) {
-            // 이미 존재하는 username 예외 처리
             model.addAttribute("error", e.getMessage());
             model.addAttribute("showSignup", true);
             return "signup";
@@ -78,10 +74,9 @@ public class LoginController {
     }
 
     // 로그아웃 처리
-    // 세션 초기화 후 로그인 페이지 이동
     @GetMapping("/logout")
     public String logout(HttpSession session) {
         session.invalidate(); // 세션 삭제
-        return "redirect:/";
+        return "redirect:/login";
     }
 }
