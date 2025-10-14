@@ -23,7 +23,7 @@ public class RosBridgeClient extends WebSocketClient {
      * @throws Exception URI 형식이 잘못된 경우 발생
      */
     public RosBridgeClient() throws Exception {
-        super(new URI("ws://localhost:9090")); // rosbridge_server의 기본 포트
+        super(new URI("ws://192.168.1.71:9090")); // rosbridge_server의 기본 포트
         connect(); // WebSocket 서버에 연결 시도 (비동기)
     }
 
@@ -34,6 +34,13 @@ public class RosBridgeClient extends WebSocketClient {
     @Override
     public void onOpen(ServerHandshake handshake) {
         System.out.println("[ROS] 연결 성공");
+        String subscribeMsg = """
+            {
+                "op": "subscribe",
+                "topic": "/turtle1/pose"
+            }
+            """;
+        this.send(subscribeMsg);
     }
 
     /**
@@ -42,9 +49,11 @@ public class RosBridgeClient extends WebSocketClient {
      */
     @Override
     public void onMessage(String message) {
-        System.out.println("[ROS] 수신: " + message);
-        // Spring WebSocketServer로 전달 예정
+        System.out.println("[ROS 수신] " + message); // 확인용
+        if (onRosMessage != null) onRosMessage.accept(message);
     }
+
+
 
     /**
      * ROS 서버와의 연결이 끊어졌을 때 호출됨
@@ -75,5 +84,11 @@ public class RosBridgeClient extends WebSocketClient {
      */
     public void sendMessageToROS(String json) {
         send(json);
+    }
+
+    private java.util.function.Consumer<String> onRosMessage;
+
+    public void setOnRosMessage(java.util.function.Consumer<String> handler) {
+        this.onRosMessage = handler;
     }
 }
