@@ -14,7 +14,7 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/index", "/stocks", "/", "/login", "/signup", "/css/**", "/js/**", "/images/**").permitAll()
+                        .requestMatchers("/index", "/stocks", "/", "/login", "/signup", "/css/**", "/js/**", "/images/**", "/ws/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form.disable()) // 기본 로그인 페이지 비활성화
