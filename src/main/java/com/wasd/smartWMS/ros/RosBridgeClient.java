@@ -1,7 +1,8 @@
 /**
- * 1. ROS WebSocket 서버(rosbridge)에 연결
- * 2. ROS로부터 수신한 메시지를 콘솔 출력 또는 Spring 내부 로직으로 전달
- * 3. Spring 측에서 ROS로 명령(JSON)을 전송 가능
+ * ROS WebSocket 클라이언트 (rosbridge 연결)
+ * 1. ROS WebSocket 서버에 연결
+ * 2. ROS 메시지 수신 → Spring 내부 로직으로 전달
+ * 3. Spring → ROS 메시지 전송 가능
  */
 package com.wasd.smartWMS.ros;
 
@@ -11,25 +12,23 @@ import org.springframework.stereotype.Component;
 
 import java.net.URI;
 
-@Component // Spring Bean으로 등록 -> 다른 컴포넌트에서 주입(@Autowired) 가능
+@Component // Spring Bean 등록 -> 다른 컴포넌트에서 @Autowired로 사용 가능
 public class RosBridgeClient extends WebSocketClient {
 
     /**
      * 생성자
-     *
-     * - rosbridge_server의 기본 주소(ws://localhost:9090)에 연결 설정
-     * - connect() 메서드 호출로 실제 비동기 연결 시도
-     *
-     * @throws Exception URI 형식이 잘못된 경우 발생
+     * - ROS WebSocket 서버(ws://ROS_IP:9090)에 연결
+     * - connect() 호출로 비동기 연결 시도
      */
     public RosBridgeClient() throws Exception {
-        super(new URI("ws://192.168.1.71:9090")); // rosbridge_server의 기본 포트
-        connect(); // WebSocket 서버에 연결 시도 (비동기)
+        super(new URI("ws://ROS_IP:9090")); // rosbridge 기본 포트
+        connect(); // 비동기 연결
     }
 
     /**
-     * ROS 서버와의 WebSocket 연결이 성공적으로 이루어졌을 때 호출
-     * @param handshake 서버로부터 받은 핸드셰이크 정보
+     * 연결 성공 시 호출
+     * - ROS 서버와 WebSocket 연결이 열리면 실행
+     * - 원하는 토픽 구독(subscribe) 메시지를 ROS에 전송
      */
     @Override
     public void onOpen(ServerHandshake handshake) {
@@ -40,12 +39,13 @@ public class RosBridgeClient extends WebSocketClient {
                 "topic": "/turtle1/pose"
             }
             """;
-        this.send(subscribeMsg);
+        this.send(subscribeMsg); // pose 토픽 구독 요청
     }
 
     /**
-     * ROS 서버로부터 메시지를 수신했을 때 호출
-     * @param message 수신된 JSON 메시지 (ROS 토픽 데이터 등)
+     * 메시지 수신 시 호출
+     * - ROS에서 발행된 토픽 데이터를 JSON 문자열로 받음
+     * - 등록된 핸들러(onRosMessage) 호출 → Spring에서 처리
      */
     @Override
     public void onMessage(String message) {
@@ -53,13 +53,8 @@ public class RosBridgeClient extends WebSocketClient {
         if (onRosMessage != null) onRosMessage.accept(message);
     }
 
-
-
     /**
-     * ROS 서버와의 연결이 끊어졌을 때 호출됨
-     * @param code    종료 코드
-     * @param reason  종료 이유
-     * @param remote  원격(서버)에서 종료한 경우 true
+     * 연결 종료 시 호출
      */
     @Override
     public void onClose(int code, String reason, boolean remote) {
@@ -67,8 +62,7 @@ public class RosBridgeClient extends WebSocketClient {
     }
 
     /**
-     * WebSocket 통신 중 예외가 발생했을 때 호출됨
-     * @param ex 발생한 예외 객체
+     * WebSocket 예외 발생 시 호출
      */
     @Override
     public void onError(Exception ex) {
@@ -76,18 +70,20 @@ public class RosBridgeClient extends WebSocketClient {
     }
 
     /**
-     * Spring 애플리케이션에서 ROS로 JSON 메시지를 전송하는 메서드
-     * @param json ROS에 보낼 메시지 (예: 토픽 발행 명령)
-     *
-     * 사용 예:
-     *   sendMessageToROS("{\"op\": \"publish\", \"topic\": \"/cmd_vel\", \"msg\": {...}}");
+     * Spring → ROS 메시지 전송
+     * - JSON 형식으로 ROS 토픽 발행 명령 전송 가능
      */
     public void sendMessageToROS(String json) {
         send(json);
     }
 
+    // ROS 수신 시 호출될 콜백 핸들러
     private java.util.function.Consumer<String> onRosMessage;
 
+    /**
+     * 외부(Spring)에서 ROS 메시지 처리 핸들러 등록
+     * - WebSocketRosBridgeService에서 사용
+     */
     public void setOnRosMessage(java.util.function.Consumer<String> handler) {
         this.onRosMessage = handler;
     }

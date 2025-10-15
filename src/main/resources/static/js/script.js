@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // ======================
-    // 1. WebSocket 연결
-    // ======================
+
+    // WebSocket 연결
     const ws = new WebSocket("ws://192.168.1.6:8080/ws"); // 웹서버 IP:포트 확인
 
     ws.onopen = () => {
@@ -29,9 +28,6 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log("WebSocket 연결 종료");
     };
 
-    // ======================
-    // 2. 사이드바 토글
-    // ======================
     const toggleBtn = document.getElementById("togglebtn");
     const sidebar = document.getElementById("sidebar");
     const mainScreen = document.getElementById("main_screen");
@@ -41,9 +37,6 @@ document.addEventListener('DOMContentLoaded', () => {
         mainScreen.classList.toggle("expanded");
     });
 
-    // ======================
-    // 3. 유저 메뉴 토글
-    // ======================
     const userIcon = document.getElementById("user_icon");
     const userMenu = document.getElementById("user_menu");
 
