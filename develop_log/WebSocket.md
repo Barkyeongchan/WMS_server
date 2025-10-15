@@ -61,8 +61,6 @@
                               WebSocketServer.java              # Web 클라이언트(WebSocket)와 통신
 ```
 
----
-
 ## 1️⃣ 네트워크 조건 확인
 
 - ROS가 실행되는 PC와 Spring Boot 서버 PC는 서로 **네트워크가 연결되어** 있어야 함.
@@ -76,9 +74,17 @@ ping [ROS PC IP]    # 서버 → ROS
 
 양쪽에서 서로 핑이 정상적으로 오면 통신 가능
 
----
+## ️2️⃣ 의존성 추가
 
-## 2️⃣ ROS 설정 (Rosbridge 실행)
+### `build.gradle`
+
+```gradle
+implementation 'org.springframework.boot:spring-boot-starter-websocket'
+implementation 'org.java-websocket:Java-WebSocket:1.5.6'   // ROS용 클라이언트
+implementation 'com.fasterxml.jackson.core:jackson-databind'
+```
+
+## 3️⃣ ROS 설정 (Rosbridge 실행)
 
 **Rosbridge**는 Ros 메세지를 Websocket으로 변환하는 중간 다리 역할을 함
 
@@ -92,9 +98,7 @@ roslaunch rosbridge_server rosbridge_websocket.launch
 [INFO] ... Rosbridge WebSocket server started on port 9090    # 기본 WebSocket 포트: 9090
 ```
 
----
-
-## 3️⃣ Spring Boot 서버 설정
+## 4️⃣ Spring Boot 서버 설정
 
 ### `WebSocketConfig.java`
 
@@ -185,9 +189,7 @@ public class SecurityConfig {
 - 초기 연결 단게에서 WebSocket 업그레이드 요청이 차단 될 수 있음
 - WebSocket 전용 경로 `/ws/**`는 주로 인증을 별도로 처리하기 때문에 보호가 크게 필요치 않음
 
----
-
-## 4️⃣ ROS와 WebSocket 서버 연결
+## 5️⃣ ROS와 WebSocket 서버 연결
 
 ### `RosBridgeClient.java`
 
@@ -289,10 +291,7 @@ public class RosBridgeClient extends WebSocketClient {
 3. `onMessage()`에서 메시지 수신 후 등록된 콜백(`onRosMessage`) 호출 → Spring이 처리
 4. `sendMessageToROS()`로 Spring → ROS 메시지 발행 가능
 
-
----
-
-## 5️⃣ ROS → WebSocket 서버로 데이터 수신 및 전송
+## 6️⃣ ROS → WebSocket 서버로 데이터 수신 및 전송
 
 ### ROS에서 받은 메시지를 클라이언트로 브로드캐스트(모든 클라이언트에게 데이터 전송)
 
@@ -351,9 +350,8 @@ public class WebSocketRosBridgeService {
 2. ROS에서 메시지 수신하면 자동으로 `sendToAll()`로 모든 클라이언트 브로드캐스트
 3. 최신 pose는 `sendLatestPose()`로 단방향 전송 가능 (예: 요청 시 한 번만 보내기)
 
----
 
-## 6️⃣ 웹 클라이언트 (index.mustache / script.js)
+## 7️⃣ 웹 클라이언트 (index.mustache / script.js)
 
 ### `index.mustache`
 
@@ -403,9 +401,7 @@ document.addEventListener('DOMContentLoaded', () => {
 //...
 ```
 
----
-
-## 7️⃣ 전체 작동 과정
+## 8️⃣ 전체 작동 과정
 
 ### 1. ROS 환경 준비 및 Rosbridge WebSocket 실행
 - ROS 토픽 데이터를 WebSocket으로 변환, 외부에서 WebSocket으로 접근 하도록 연결함
@@ -432,9 +428,7 @@ roslaunch rosbridge_server rosbridge_websocket.launch
 ### 7. 웹 클라이언트에서 메시지 수신 및 화면 표시 `index.mustache`, `script.js`
 - WebSocket 연결, 메시지 수신, 화면 표시, UI 이벤트 처리
 
----
-
-## 8️⃣ 자주 발생한 오류와 해결 방법
+## 9️⃣ 자주 발생한 오류와 해결 방법
 
 | 오류                            | 원인                      | 해결 방법                      |
 | ----------------------------- | ----------------------- | -------------------------- |
